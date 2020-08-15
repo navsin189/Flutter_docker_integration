@@ -1,0 +1,34 @@
+#!/usr/bin/python3
+import cgi
+import subprocess as sp
+print("content-type: text/html")
+print()
+def docker(first='docker',execute='run',argument='-dit',network=' ',attach=' ',name='raja',image_name='centos:7'):
+    x=(f" sudo {first} {execute} {argument} {network} {attach} --name  {name} {image_name}")
+    xv=x.replace('None','')
+    print(xv)
+
+    #op=sp.getoutput(f" sudo {first} {execute} {argument} {network} {attach} --name  {name} {image_name}")
+    op=sp.getoutput(xv)
+    print(op)
+    #ps=sp.getoutput(f"docker ps -l")
+    #print(ps)
+    fil=open('/var/www/html/data.html','w')
+    fil.write(op)
+    fil.write(ps)
+    fil.close()
+    print(op)
+    #print(op)
+
+w=cgi.FieldStorage()
+#data=w.getvalue("first")
+#data=int(data)
+first = w.getvalue("main")
+execute=w.getvalue("command")
+argument=w.getvalue("options")
+network=w.getvalue("patting")
+attach=w.getvalue("volume")
+name=w.getvalue("con_name")
+image_name=w.getvalue("image_name")
+#print(first,execute,argument,network,attach,name,image_name)
+docker(first,execute,argument,network,attach,name,image_name)
